@@ -23,7 +23,7 @@ initFESDIA <- function (parms = list(), gridtype = 1, CfluxForc = NULL,
                         times = NULL, model = 1, dynamicpH = FALSE)  {
   
 
-  if (is.null(Grid))
+  if (is.null(Grid)) 
     Grid  <- setup.grid.1D(x.up = 0, dx.1 = 0.01, N = .FESDIA$N, L = 100)
     #Grid  <- setup.grid.1D(x.up = 0, dx.1 = 0.1, N = .FESDIA$N, L = 100)
   else {
@@ -35,10 +35,10 @@ initFESDIA <- function (parms = list(), gridtype = 1, CfluxForc = NULL,
           stop ("'Grid' should be a list containing 'dx' and 'dx.aux'")
       if (length(Grid$dx.aux) != .FESDIA$N +1)
             stop ("Checking 'Grid': 'dx.aux' should be a vector of length ", .FESDIA$N+1)
-      if (length(Grid$dx) != .FESDIA$N +1)
+      if (length(Grid$dx) != .FESDIA$N) # L: there is a bug when a grid is defined (even the one exactly the same as below (L27), that an errow gets thrown. My guess is that grid$dx != should be FESDIA$N NOT FESDIA$N+1 provided this is what the error message gives.
           stop ("Checking 'Grid': 'dx' should be a vector of length ", .FESDIA$N)
     } else {
-      if (length(Grid) != .FESDIA$N +1)
+      if (length(Grid) != .FESDIA$N +1) 
         stop ("Checking 'Grid': should be a vector of length ", .FESDIA$N+1)
       Grid <- list(dx.aux = Grid, mid = 0.5*(Grid[-1] + Grid[-(.FESDIA$N+1)]))
     }
